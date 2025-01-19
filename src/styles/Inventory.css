@@ -1,0 +1,9 @@
+.inventory {
+    padding: 20px;
+}
+
+.inventory__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

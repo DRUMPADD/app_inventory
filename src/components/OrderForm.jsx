@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import '@/styles/OrderForm.css'; // Archivo CSS con estilos BEM
+import { useState } from 'react';
+import '@/styles/OrderForm.css';
+import CustomButton from './customButton';
 
 const OrderForm = ({ userProducts, onAddToCart, onCreateOrder, cart }) => {
   const [userName, setUserName] = useState('');
@@ -41,13 +42,14 @@ const OrderForm = ({ userProducts, onAddToCart, onCreateOrder, cart }) => {
             ))}
           </ul>
         )}
-        <button
+        <CustomButton className={"order-summary__button"} onClick={onCreateOrder} disabled={cart.length === 0} label={'Crear Pedido'} />
+        {/* <button
           className="order-summary__button"
           onClick={onCreateOrder}
           disabled={cart.length === 0}
         >
           Crear Pedido
-        </button>
+        </button> */}
       </div>
     </div>
   );

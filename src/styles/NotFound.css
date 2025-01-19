@@ -1,0 +1,31 @@
+.notfound {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.notfound__title {
+    font-size: 96px;
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 16px;
+}
+
+.notfound__message {
+    font-size: 20px;
+    margin-bottom: 24px;
+}
+
+.notfound__link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1976d2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.notfound__link:hover {
+    background-color: #1565c0;
+}

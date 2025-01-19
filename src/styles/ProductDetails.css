@@ -1,0 +1,48 @@
+.product-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.product-details__title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.product-details__info {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-details__name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.product-details__category {
+    font-size: 18px;
+    color: #4caf50;
+    margin-bottom: 8px;
+}
+
+.product-details__manufacturer {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.product-details__error {
+    text-align: center;
+    color: #d32f2f;
+    font-size: 18px;
+    margin: 20px;
+}
