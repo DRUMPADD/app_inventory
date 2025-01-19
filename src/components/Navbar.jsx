@@ -13,6 +13,9 @@ function Navbar () {
                 <Link to="/products">Productos</Link>
                 </li>
                 <li className="navbar__item">
+                <Link to="/inventory">Inventario</Link>
+                </li>
+                <li className="navbar__item">
                 <Link to="/orders">Pedidos</Link>
                 </li>
                 <li className="navbar__item">
