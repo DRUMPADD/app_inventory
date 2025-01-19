@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import '@/styles/Products.css';
+import '@/styles/ProductsPage.css';
 import ProductsCard from "@/components/ProductsCard";
 import SearchBar from "@/components/SearchBar";
 import useSearchProduct from "@/hooks/useSearchProduct";
