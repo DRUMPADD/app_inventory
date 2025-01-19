@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '@/styles/OrderForm.css';
-import CustomButton from './customButton';
+import CustomButton from '@/components/CustomButton';
 
 const OrderForm = ({ userProducts, onAddToCart, onCreateOrder, cart }) => {
   const [userName, setUserName] = useState('');
