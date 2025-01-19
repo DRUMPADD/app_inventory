@@ -8,8 +8,8 @@ const products = [
 ];
 function ProductDetails() {
     const { id } = useParams();
-    const product = Array(products).find((item) => item.id === parseInt(id));
-
+    const product = products.find((item) => item.id === parseInt(id));
+    console.log();
     if(!product) {
         return <p className='product-details__error'>El producto no fue encontrado.</p> 
     }
@@ -18,7 +18,7 @@ function ProductDetails() {
             <h1 className="product-details__title">Detalles del Producto</h1>
             <div className="product-details__info">
                 <h2 className="product-details__name">{product.name}</h2>
-                <p className="product-details__category">Categoría: ${product.price}</p>
+                <p className="product-details__category">Categoría: {product.manufacturer}</p>
                 <p className="product-details__manufacturer">Proveedor: {product.category}</p>
             </div>
         </div>

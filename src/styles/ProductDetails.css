@@ -28,12 +28,7 @@
     margin-bottom: 8px;
 }
 
-.product-details__category {
-    font-size: 18px;
-    color: #4caf50;
-    margin-bottom: 8px;
-}
-
+.product-details__category,
 .product-details__manufacturer {
     font-size: 16px;
     color: #666;
