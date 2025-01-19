@@ -1,9 +1,14 @@
 import { useParams } from 'react-router'
 import '@/styles/ProductDetails.css'
-
-function ProductDetails({ products }) {
+const products = [
+    { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
+    { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
+    { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
+    { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
+  ];
+function ProductDetails() {
     const { id } = useParams();
-    const product = Array(products).find((item) => item.id === parseInt(id));
+    const product = products.find((item) => item.id === parseInt(id));
 
     if(!product) {
         return <p className='product-details__error'>El producto no fue encontrado.</p> 
