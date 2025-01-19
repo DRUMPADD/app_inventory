@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
+import '@/styles/Products.css'
 import ProductsCard from "@/components/ProductsCard";
 import SearchBar from "@/components/SearchBar";
 import useSearchProduct from "@/hooks/useSearchProduct";
-import '@/styles/Products.css'
 import useForm from '@/hooks/useForm';
 const productData = [
   { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
