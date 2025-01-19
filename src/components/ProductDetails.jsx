@@ -5,7 +5,7 @@ const products = [
     { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
     { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
     { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
-  ];
+];
 function ProductDetails() {
     const { id } = useParams();
     const product = products.find((item) => item.id === parseInt(id));
