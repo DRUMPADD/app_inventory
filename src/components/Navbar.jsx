@@ -18,9 +18,9 @@ function Navbar () {
                 <li className="navbar__item">
                 <Link to="/orders">Pedidos</Link>
                 </li>
-                <li className="navbar__item">
+                {/* <li className="navbar__item">
                 <Link to="/suppliers">Proveedores</Link>
-                </li>
+                </li> */}
             </ul>
         </nav>
     )

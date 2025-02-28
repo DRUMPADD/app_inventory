@@ -9,7 +9,6 @@ const products = [
 function ProductDetails() {
     const { id } = useParams();
     const product = products.find((item) => item.id === parseInt(id));
-    console.log();
     if(!product) {
         return <p className='product-details__error'>El producto no fue encontrado.</p> 
     }

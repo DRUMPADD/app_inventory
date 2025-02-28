@@ -4,16 +4,17 @@ import ProductsCard from "@/components/ProductsCard";
 import SearchBar from "@/components/SearchBar";
 import useSearchProduct from "@/hooks/useSearchProduct";
 import useForm from '@/hooks/useForm';
-const productData = [
-  { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
-  { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
-  { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
-  { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
-];
+import { createProduct, getProducts } from '@/api/api';
+// const productData = [
+//   { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
+//   { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
+//   { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
+//   { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
+// ];
 
 function Products() {
-
-  const {query, results, handleSearch} = useSearchProduct(productData, ['name', 'category', 'manufacturer'])
+  const [productData, setProductData] = useState([]);
+  const {query, results, handleSearch} = useSearchProduct(productData, ['name', 'category', 'price']);
 
   const [productsCard, setProductsCard] = useState([]);
   const handleAddToCard = (product) => {
@@ -24,19 +25,25 @@ function Products() {
 
   const {formValues, handleChange, resetForm} = useForm({
     name: "",
-    category: "",
-    manufacturer: ""
+    description: "",
+    price: ""
   });
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   useEffect(() => {
     const isFormComplete = Object.values(formValues).every((value) => value.trim() !== "");
     setDisableSubmit(!isFormComplete);
+    const fetchProducts = async () => {
+      const res = await getProducts();
+      const products = await res.json();
+      setProductData(products);
+    }
+    fetchProducts();
   }, [formValues]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    productData.push(formValues);
+    createProduct(formValues);
     resetForm();
     alert('Producto almacenado');
   }
@@ -68,24 +75,25 @@ function Products() {
         </label>
 
         <label>
-          Categoría:
+          Descripción:
           <input
             type="text"
-            name="category"
-            value={formValues.category}
+            name="description"
+            value={formValues.description}
             onChange={handleChange}
-            placeholder="Categoría"
+            placeholder="Descripción"
           />
         </label>
 
         <label>
-          Proveedor:
+          Precio:
           <input
-            type="text"
-            name="manufacturer"
-            value={formValues.manufacturer}
+            type="number"
+            step={"0.01"}
+            name="price"
+            value={formValues.price}
             onChange={handleChange}
-            placeholder="Proveedor"
+            placeholder="Precio"
           />
         </label>
 

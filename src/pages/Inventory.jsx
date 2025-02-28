@@ -1,16 +1,26 @@
-// import React from 'react';
+import { useEffect, useState } from 'react';
 import '@/styles/Inventory.css';
 import { useNavigate } from 'react-router';
 import CustomButton from '@/components/CustomButton';
-const productData = [
-    { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
-    { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
-    { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
-    { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
-];
+import { getProducts } from '@/api/api';
+// const data = [
+//     { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
+//     { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
+//     { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
+//     { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
+// ];
 
 const Inventory = () => {
     const navigate = useNavigate();
+    const [productData, setProductData] = useState([]);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const res = await getProducts();
+            const products= await res.json();
+            setProductData(products);
+        };
+        fetchProducts();
+    }, []);
 
     const handleViewDetails = (id) => {
         navigate(`/product-details/${id}`)
