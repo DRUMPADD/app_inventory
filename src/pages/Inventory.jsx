@@ -26,9 +26,9 @@ const Inventory = () => {
         navigate(`/product-details/${id}`)
     }
 
-    const handleAdd = () => {
-        alert("Añadir Producto");
-    };
+    // const handleAdd = () => {
+    //     alert("Añadir Producto");
+    // };
 
     // const handleEdit = () => {
     //     alert("Editar Producto");
@@ -55,11 +55,11 @@ const Inventory = () => {
             </ul>
         )}
 
-        <div className='inventory__actions'>
+        {/* <div className='inventory__actions'>
             <CustomButton label="Añadir Producto" onClick={handleAdd} />
-            {/* <CustomButton label="Editar Producto" onClick={handleEdit} />
-            <CustomButton label="Eliminar Producto" onClick={handleDelete} /> */}
-        </div>
+            <CustomButton label="Editar Producto" onClick={handleEdit} />
+            <CustomButton label="Eliminar Producto" onClick={handleDelete} />
+        </div> */}
     </div>
     );
 };
