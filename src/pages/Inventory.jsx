@@ -30,13 +30,13 @@ const Inventory = () => {
         alert("Añadir Producto");
     };
 
-    const handleEdit = () => {
-        alert("Editar Producto");
-    };
+    // const handleEdit = () => {
+    //     alert("Editar Producto");
+    // };
 
-    const handleDelete = () => {
-        alert("Eliminar Producto");
-    };
+    // const handleDelete = () => {
+    //     alert("Eliminar Producto");
+    // };
     return (
     <div className="inventory">
         <h1 className="inventory__title">Inventario</h1>
@@ -57,8 +57,8 @@ const Inventory = () => {
 
         <div className='inventory__actions'>
             <CustomButton label="Añadir Producto" onClick={handleAdd} />
-            <CustomButton label="Editar Producto" onClick={handleEdit} />
-            <CustomButton label="Eliminar Producto" onClick={handleDelete} />
+            {/* <CustomButton label="Editar Producto" onClick={handleEdit} />
+            <CustomButton label="Eliminar Producto" onClick={handleDelete} /> */}
         </div>
     </div>
     );
