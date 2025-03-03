@@ -9,29 +9,29 @@ export const getProducts = async () => {
         return data;
     } catch (error) {
         console.error("Error fetching products:", error);
-        throw error; // Re-throw the error so the caller can handle it
+        throw error;
     }
 };
 
 export const createProduct = async (order) => {
-    const response = await fetch("http://127.0.0.1:8082/productos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order)
-    }).json();
-    return response;
-}
-export const getOrders = async () => await fetch("http://127.0.0.1:8082/pedidos").json();
+    try {
+        const response = await fetch("http://localhost:8080/car", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(order),
+        });
 
-export const createOrder = async (order) => {
-    const response = await fetch("http://127.0.0.1:8082/pedidos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order)
-    }).json();
-    return response;
-}
+        if (!response.ok) {
+            const message = `Error en la solicitud: ${response.status}`;
+            throw new Error(message);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error al crear el producto:", error);
+        throw error;
+    }
+};

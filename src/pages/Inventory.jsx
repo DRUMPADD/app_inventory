@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '@/styles/Inventory.css';
 import { useNavigate } from 'react-router';
 import CustomButton from '@/components/CustomButton';
-import { getProducts } from '@/api/api';
+import { getProducts, createProduct } from '@/api/api';
 
 const Inventory = () => {
     const navigate = useNavigate();
@@ -62,7 +62,7 @@ const Inventory = () => {
         setOwnerName('');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Aqui irian las validaciones y el post a la api
         if (!model || !yearOfManufacture || !brand || !ownerName) {
@@ -71,15 +71,19 @@ const Inventory = () => {
         }
 
         const newProduct = {
-            model: model,
-            yearOfManufacture: yearOfManufacture,
             brand: brand,
-            owners: [{ name: ownerName }],
+            model: model,
+            yearOfManufacture: parseInt(yearOfManufacture),
+            owners: [{ name: ownerName, age:25, isActive:true }],
         };
 
-        // TODO: Enviar newProduct a tu API para agregarlo
-        console.log("Nuevo producto:", newProduct);
-        closeModal();
+        try {
+            const agregarProducto = await createProduct(newProduct);
+            console.log("Nuevo producto:", agregarProducto); 
+            closeModal();
+        } catch (error) {
+            console.error("Error al agregar el producto:", error);
+        }
     };
 
     const tableHeaderStyle = {
