@@ -3,31 +3,39 @@ import '@/styles/Inventory.css';
 import { useNavigate } from 'react-router';
 import CustomButton from '@/components/CustomButton';
 import { getProducts } from '@/api/api';
-// const data = [
-//     { id: 1, name: "Laptop", category: "Electronics", manufacturer: "BrandA" },
-//     { id: 2, name: "Phone", category: "Electronics", manufacturer: "BrandB" },
-//     { id: 3, name: "Table", category: "Furniture", manufacturer: "BrandC" },
-//     { id: 4, name: "Chair", category: "Furniture", manufacturer: "BrandC" },
-// ];
 
 const Inventory = () => {
     const navigate = useNavigate();
+    const [render, setRender] = useState(false);
     const [productData, setProductData] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    const [model, setModel] = useState('');
+    const [yearOfManufacture, setYearOfManufacture] = useState('');
+    const [brand, setBrand] = useState('');
+    const [ownerName, setOwnerName] = useState('');
     useEffect(() => {
         const fetchProducts = async () => {
-            const res = await getProducts();
-            const products= await res.json();
-            setProductData(products);
+            try {
+                const products = await getProducts();
+                setProductData(products.content);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
         };
         fetchProducts();
-    }, []);
+        console.log(productData);        
+    }, [render]);
 
     const handleViewDetails = (id) => {
         navigate(`/product-details/${id}`)
     }
 
     const handleAdd = () => {
-        alert("Añadir Producto");
+        setIsAddModalOpen(true);
+        setRender(false);
     };
 
     const handleEdit = () => {
@@ -37,30 +45,181 @@ const Inventory = () => {
     const handleDelete = () => {
         alert("Eliminar Producto");
     };
-    return (
-    <div className="inventory">
-        <h1 className="inventory__title">Inventario</h1>
-        {productData.length === 0 ? (
-            <p className="inventory__empty">No hay productos disponibles en el inventario.</p>
-        ) : (
-            <ul className="inventory__list">
-            {productData.map((product) => (
-                <li key={product.id} className="inventory__item">
-                    <h2 className="inventory__item-name">{product.name}</h2>
-                    <p className="inventory__item-category">Categoría: {product.category}</p>
-                    <p className="inventory__item-manufacturer">Proveedor: {product.manufacturer}</p>
-                    <button className="inventory__item-button" onClick={() => handleViewDetails(product.id)}>Ver Detalles</button>
-                </li>
-            ))}
-            </ul>
-        )}
 
-        <div className='inventory__actions'>
-            <CustomButton label="Añadir Producto" onClick={handleAdd} />
-            <CustomButton label="Editar Producto" onClick={handleEdit} />
-            <CustomButton label="Eliminar Producto" onClick={handleDelete} />
+    const openModal = (product) => {
+        setSelectedProduct(product);
+        setIsModalOpen(true);
+        
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setIsAddModalOpen(false);
+        setRender(true);
+        setModel('');
+        setYearOfManufacture('');
+        setBrand('');
+        setOwnerName('');
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Aqui irian las validaciones y el post a la api
+        if (!model || !yearOfManufacture || !brand || !ownerName) {
+            alert("Por favor, rellena todos los campos");
+            return
+        }
+
+        const newProduct = {
+            model: model,
+            yearOfManufacture: yearOfManufacture,
+            brand: brand,
+            owners: [{ name: ownerName }],
+        };
+
+        // TODO: Enviar newProduct a tu API para agregarlo
+        console.log("Nuevo producto:", newProduct);
+        closeModal();
+    };
+
+    const tableHeaderStyle = {
+        borderBottom: '1px solid #ddd',
+        padding: '8px',
+        textAlign: 'left',
+    };
+
+    const tableRowStyle = {
+        borderBottom: '1px solid #eee',
+    };
+
+    const tableCellStyle = {
+        padding: '8px',
+        textAlign: 'left',
+    };
+
+    const btnDanger = {
+        background: '#ff0000e6'
+    };
+
+    const btnContainer = {
+        display: 'flex',
+        gap: '1em'
+    };
+
+    const modalOverlayStyle = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+    };
+
+    const modalStyle = {
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        maxWidth: '500px',
+        width: '90%',
+    };
+
+    const containerForm = {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1em'
+    };
+
+    const containerFormInput = {
+        display: 'flex'
+    };
+
+    const labelForm = {
+        width: '75%'
+    };
+
+    const inputForm = {
+        width: '-webkit-fill-available',
+        padding: '0 .5em'
+    };
+
+    const containerFormBtns = {
+        display: 'flex',
+        gap: '1em',
+        margiTop: '1em'
+        // width: '-webkit-fill-available',
+    };
+
+    const btn = {
+        width: '-webkit-fill-available',
+    };
+
+    const btnDangerForm = {
+        background: '#ff0000e6',
+        width: '-webkit-fill-available'
+    };
+
+    return (
+        <div style={{ padding: '20px', height: '83.3vh' }}>
+            <div style={btnContainer}>
+                <CustomButton label="Añadir Producto" onClick={handleAdd} />
+                <CustomButton label="Eliminar Producto" style={btnDanger} onClick={handleDelete} />
+            </div>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                    <tr>
+                        <th style={tableHeaderStyle}>ID</th>
+                        <th style={tableHeaderStyle}>Nombre del auto</th>
+                        <th style={tableHeaderStyle}>Año de manufactura</th>
+                        <th style={tableHeaderStyle}>Marca</th>
+                        <th style={tableHeaderStyle}>Propietarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {productData.map((product) => (
+                        <tr key={product.id} style={tableRowStyle}>
+                            <td style={tableCellStyle}>{product.id}</td>
+                            <td style={tableCellStyle}>{product.model}</td>
+                            <td style={tableCellStyle}>{product.yearOfManufacture}</td>
+                            <td style={tableCellStyle}>{product.brand}</td>
+                            <td style={tableCellStyle}>{product.owners[0].name}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {isAddModalOpen && (
+                <div style={modalOverlayStyle}>
+                    <div style={modalStyle}>
+                        <h2>Añadir Producto</h2>
+                        <form style={containerForm} onSubmit={handleSubmit}>
+                            <div style={containerFormInput}>
+                                <label style={labelForm}>Nombre del auto:</label>
+                                <input style={inputForm} type="text" value={model} onChange={(e) => setModel(e.target.value)} />
+                            </div>
+                            <div style={containerFormInput}>
+                                <label style={labelForm}>Año de manufactura:</label>
+                                <input style={inputForm} type="number" value={yearOfManufacture} onChange={(e) => setYearOfManufacture(e.target.value)} />
+                            </div>
+                            <div style={containerFormInput}>
+                                <label style={labelForm}>Marca:</label>
+                                <input style={inputForm} type="text" value={brand} onChange={(e) => setBrand(e.target.value)} />
+                            </div>
+                            <div style={containerFormInput}>
+                                <label style={labelForm}>Nombre del propietario:</label>
+                                <input style={inputForm} type="text" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} />
+                            </div>
+                            <div style={containerFormBtns}>
+                                <button style={btn} type="submit">Añadir</button>
+                                <button style={btnDangerForm} type="button" onClick={closeModal}>Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
-    </div>
     );
 };
 
