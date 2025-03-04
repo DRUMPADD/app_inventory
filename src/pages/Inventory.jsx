@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '@/styles/Inventory.css';
 import { useNavigate } from 'react-router';
 import CustomButton from '@/components/CustomButton';
-import { getProducts, createProduct } from '@/api/api';
+import { getProducts, createProduct, getProductById, getProductByBrand, deleteProduct } from '@/api/api';
 
 const Inventory = () => {
     const navigate = useNavigate();
@@ -11,6 +11,9 @@ const Inventory = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+    const [inputId, setInputId] = useState('');
+    const [inputBrand, setInputBrand] = useState('');
 
     const [model, setModel] = useState('');
     const [yearOfManufacture, setYearOfManufacture] = useState('');
@@ -26,7 +29,7 @@ const Inventory = () => {
             }
         };
         fetchProducts();
-        console.log(productData);        
+        console.log(productData);
     }, [render]);
 
     const handleViewDetails = (id) => {
@@ -42,14 +45,52 @@ const Inventory = () => {
         alert("Editar Producto");
     };
 
-    const handleDelete = () => {
-        alert("Eliminar Producto");
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id);
+            try {
+                const products = await getProducts();
+                setProductData(products.content);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+
+    const handleSearch = async () => {
+        if (!inputId && !inputBrand) {
+            try {
+                const products = await getProducts();
+                setProductData(products.content);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+            return;
+        }
+        if (!inputId) {
+            try {
+                const products = await getProductByBrand(inputBrand);
+                setProductData(products.content);
+            } catch (error) {
+                console.error("Error fetching products by brand:", error);
+            }
+            return;
+        }
+        try {
+            const products = await getProductById(inputId);
+            setProductData(products.content);
+        } catch (error) {
+            console.error("Error fetching products by brand:", error);
+        }
+
     };
 
     const openModal = (product) => {
         setSelectedProduct(product);
         setIsModalOpen(true);
-        
+
     };
 
     const closeModal = () => {
@@ -74,12 +115,12 @@ const Inventory = () => {
             brand: brand,
             model: model,
             yearOfManufacture: parseInt(yearOfManufacture),
-            owners: [{ name: ownerName, age:25, isActive:true }],
+            owners: [{ name: ownerName, age: 25, isActive: true }],
         };
 
         try {
             const agregarProducto = await createProduct(newProduct);
-            console.log("Nuevo producto:", agregarProducto); 
+            console.log("Nuevo producto:", agregarProducto);
             closeModal();
         } catch (error) {
             console.error("Error al agregar el producto:", error);
@@ -166,11 +207,20 @@ const Inventory = () => {
         width: '-webkit-fill-available'
     };
 
+    const btnSearch = {
+        background: 'gray',
+        width: '10%'
+    };
+
     return (
         <div style={{ padding: '20px', height: '83.3vh' }}>
             <div style={btnContainer}>
                 <CustomButton label="Añadir Producto" onClick={handleAdd} />
-                <CustomButton label="Eliminar Producto" style={btnDanger} onClick={handleDelete} />
+                <label htmlFor="inputBusquedaId">Busqueda por id:</label>
+                <input id='inputBusquedaId' type="text" value={inputId} onChange={(e) => setInputId(e.target.value)} />
+                <label htmlFor="inputBusquedaMarca">Busqueda por marca:</label>
+                <input id='inputBusquedaMarca' type="text" value={inputBrand} onChange={(e) => setInputBrand(e.target.value)} />
+                <CustomButton label="Buscar" style={btnSearch} onClick={handleSearch} />
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
@@ -180,6 +230,7 @@ const Inventory = () => {
                         <th style={tableHeaderStyle}>Año de manufactura</th>
                         <th style={tableHeaderStyle}>Marca</th>
                         <th style={tableHeaderStyle}>Propietarios</th>
+                        <th style={tableHeaderStyle}>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -190,6 +241,7 @@ const Inventory = () => {
                             <td style={tableCellStyle}>{product.yearOfManufacture}</td>
                             <td style={tableCellStyle}>{product.brand}</td>
                             <td style={tableCellStyle}>{product.owners[0].name}</td>
+                            <td style={tableCellStyle}><CustomButton label="Eliminar" style={btnDanger} onClick={() => handleDelete(product.id)} /></td>
                         </tr>
                     ))}
                 </tbody>
