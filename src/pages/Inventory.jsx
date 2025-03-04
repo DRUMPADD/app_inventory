@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import '@/styles/Inventory.css';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import CustomButton from '@/components/CustomButton';
 import { getProducts, createProduct, getProductById, getProductByBrand, deleteProduct } from '@/api/api';
 
 const Inventory = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [render, setRender] = useState(false);
     const [productData, setProductData] = useState([]);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [setSelectedProduct] = useState(null);
+    const [setIsModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     const [inputId, setInputId] = useState('');
@@ -30,15 +30,15 @@ const Inventory = () => {
         };
         fetchProducts();
         console.log(productData);
-    }, [render]);
+    }, [render, productData]);
 
-    const handleViewDetails = (id) => {
-        navigate(`/product-details/${id}`)
-    }
+    // const handleViewDetails = (id) => {
+    //     navigate(`/product-details/${id}`)
+    // }
 
     const handleAdd = () => {
         setIsAddModalOpen(true);
-        setRender(false);
+        // setRender(false);
     };
 
     // const handleEdit = () => {
@@ -88,11 +88,11 @@ const Inventory = () => {
 
     };
 
-    const openModal = (product) => {
-        setSelectedProduct(product);
-        setIsModalOpen(true);
+    // const openModal = (product) => {
+    //     setSelectedProduct(product);
+    //     setIsModalOpen(true);
 
-    };
+    // };
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -277,31 +277,6 @@ const Inventory = () => {
                 </div>
             )}
         </div>
-
-    return (
-    <div className="inventory">
-        <h1 className="inventory__title">Inventario</h1>
-        {productData.length === 0 ? (
-            <p className="inventory__empty">No hay productos disponibles en el inventario.</p>
-        ) : (
-            <ul className="inventory__list">
-            {productData.map((product) => (
-                <li key={product.id} className="inventory__item">
-                    <h2 className="inventory__item-name">{product.name}</h2>
-                    <p className="inventory__item-category">Categoría: {product.category}</p>
-                    <p className="inventory__item-manufacturer">Proveedor: {product.manufacturer}</p>
-                    <button className="inventory__item-button" onClick={() => handleViewDetails(product.id)}>Ver Detalles</button>
-                </li>
-            ))}
-            </ul>
-        )}
-
-        {/* <div className='inventory__actions'>
-            <CustomButton label="Añadir Producto" onClick={handleAdd} />
-            <CustomButton label="Editar Producto" onClick={handleEdit} />
-            <CustomButton label="Eliminar Producto" onClick={handleDelete} />
-        </div> */}
-    </div>
     );
 };
 

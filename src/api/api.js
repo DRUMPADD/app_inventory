@@ -15,7 +15,7 @@ export const getProducts = async () => {
 
 export const createProduct = async (order) => {
     try {
-        const response = await fetch("http://localhost:8080/car", {
+        await fetch("http://localhost:8080/car", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
